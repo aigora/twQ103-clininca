@@ -1,7 +1,7 @@
 ## REPOSITORIO MYR'S
 
-* Se trata de un respositorio de ONGS con tres sectores a distinguir : medioambiente, ayuda humanitaria, protección de animales.Este programa dependiendo del campo que elijas te permite, conocer a que se dedican, dar un donativo o volverte
-socio
+** Se trata de un respositorio de ONGS con tres sectores a distinguir : medioambiente, ayuda humanitaria, protección de animales.Este programa dependiendo del campo que elijas te permite, conocer a que se dedican, dar un donativo o volverte
+socio.**
 
 ## Integrantes del equipo
 
