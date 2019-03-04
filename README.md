@@ -10,7 +10,7 @@
 
 ## Objetivos del trabajo
 
-*Iniciar sesión o visitar la páginca
+*Iniciar sesión o visitar la página
 * Informar sobre las organizaciones que hay  y que tipos de ayuda ofrecen.
 * Asociarte a las organizaciones que hay disponibles .
 * Contribuir economicamente con ellas.
