@@ -12,6 +12,6 @@
 
 *Iniciar sesión ,registrarte o entrar como invitado.
 * Informar sobre las organizaciones que hay  y que tipos de ayuda ofrecen.
-* Asociarte a las organizaciones que hay disponibles .
+* Iniciar sesion o registrate en el repositorio.
 * Contribuir economicamente con ellas.
 * Iniciar sesión o registrarte en caso de que quieras contribuir económicamente.
