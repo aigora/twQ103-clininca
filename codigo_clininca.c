@@ -385,12 +385,102 @@ void lectura_repositorio(char lectura)
 
 void releer(char relectura)
 {
-	int i=1;
 	lectura_repositorio(relectura);
-	switch(i)
-	{
-		case 1 :
-			break;
-	}
 };
-}
+void elegir_donar(char nombreArchivodonacion[])
+{
+	FILE *donaciones;
+	char donacionesEscritura[]=" ";
+	struct donacion donacion_ongs[9];
+	char donacion_ongs3[]=" ";
+	int donacionTarjeta;
+	float cantidadDonacion;
+	int i,j,eleccion;
+	
+	printf("\nQuieres donar?, 1:SI ,2: NO\n");
+	scanf("%d",&eleccion);
+	
+	
+	if(eleccion == 1)
+	{
+		
+		do
+		{
+			printf("Introduce el numero de ongs que quieres donar\n");
+			scanf("%d",&j);
+				
+			if(j>0)
+			{
+				for(i=1 ; i<=j ; i++)
+				{
+					fflush( stdin );
+					printf("\nNombre de la ong\n");
+					scanf("%s",&donacion_ongs[i].nombre);
+					fflush( stdin );
+					printf("Introduce nombre del titular de la tarjeta\n");
+					gets(donacion_ongs[i].n_identificacion);
+					fflush( stdin );
+					printf("Introduce la cantidad a donar en euros\n");
+					scanf("%f",&donacion_ongs[i].cantidad);
+					fflush( stdin );
+					printf("Numero de tarjeta bancaria\n");
+					scanf("%d",&donacion_ongs[i].tarjeta);
+					fflush( stdin );
+					printf("Fecha de vencimiento mesanho\n");
+					scanf("%d",&donacion_ongs[i].caducidad);
+					fflush( stdin );
+					printf("Introduce codigo de seguridad\n");
+					scanf("%d",&donacion_ongs[i].cv);
+				}
+				
+				
+				for(i=1 ; i<=j ; i++)
+				{
+					donaciones=fopen(nombreArchivodonacion,"a");
+					
+					if(donaciones==NULL)
+					{
+						printf("FICHERO NO ABIERTO\n");
+					}
+					
+					else
+					{
+						fprintf(donaciones,"DONACIONES: ");
+						strcpy(donacion_ongs3,donacion_ongs[i].nombre);
+						strcat(donacion_ongs3,"-");
+						strcat(donacion_ongs3,donacion_ongs[i].n_identificacion);
+						strcat(donacion_ongs3,",");
+						donacionTarjeta=donacion_ongs[i].tarjeta;
+						cantidadDonacion=donacion_ongs[i].cantidad;
+						fprintf(donaciones," \nNombre de la Asociacion, Nombre del Titular de la Tarjeta, Numero de Tarjeta de debito/credito, Cantidad donada: ");
+						fprintf(donaciones," %s %d, %f",donacion_ongs3,donacionTarjeta,cantidadDonacion);
+						fclose(donaciones);
+					}
+				
+			    }
+			    printf("Muchas gracias por la donacion y  su visita a la guia de ongs\n");
+					
+			}
+				
+			else
+			{
+				printf("Numero erroneo\n");
+			}
+				
+		}while( j ==0 );
+			
+	}
+				
+	
+	else
+	{
+		printf("\nGracias por haber visitado la guia de ONGS\n");
+	}	
+	
+};
+
+
+
+
+
+
