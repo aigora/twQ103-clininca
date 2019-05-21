@@ -49,7 +49,7 @@ void main() // FUNCION PRINCIPAL
 void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
 {
 	FILE *newuser,*newuser2;
-	char lectura3;
+	char lectura3,nombreArchivo4[SIZE];
 	int longitud;
 	
 	do
@@ -63,12 +63,13 @@ void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
 		newuser=fopen(nombreArchivo3,"r");
 		
 		if ( newuser==NULL)
-		{
+		{	
+			fclose(newuser);
 			printf("Introduce tu contrasenha que tenga como maximo 12 caracteres y sin espacios\n");
 			fflush( stdin );
 			scanf("%s",u3.contrasena);
-			strcpy(nombreArchivo3,u3.user);
-			newuser2=fopen(nombreArchivo3,"a");
+			strcpy(nombreArchivo4,u3.user);
+			newuser2=fopen(nombreArchivo4,"a");
 			strcat(escritura,u3.user);
 			fprintf(newuser2,"Usuario: %s",escritura);
 			strcat(escritura,"\n");
@@ -76,16 +77,18 @@ void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
 			fprintf(newuser2,"\nContraseña: %s\n",escritura);
 			fclose(newuser2);
 			printf("Cuenta creada sastisfactoriamente\n");
+			lectura_repositorio(lectura3);
+			elegir_donar(nombreArchivo4);
 		}
 			
 		else if (longitud==0)
-		{
+		{	fclose(newuser);
 			printf("Datos del usuario incompleto, por favor vuelva a introducir los datos.\n");
 			
 		}
 		
 		else
-		{
+		{	fclose(newuser);
 			printf("\nUsuario registrado,introduzca nombre de usuario valido\n");
 			crear_usuario(u3,nombreArchivo3,escritura);
 			
@@ -93,8 +96,7 @@ void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
 		
 		
 	}while(longitud==0);
-	lectura_repositorio(lectura3);
-	elegir_donar(nombreArchivo3);
+	
 	
 };
 
