@@ -190,7 +190,6 @@ void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 			while( !feof(user) && i==0)
 			{	
 				fscanf(user,"%s %s %s %s",usuario,u2.user,contrasena,comparar_contrasena);
-				printf("\n %s %s  ",u2.user,comparar_contrasena);
 				i++;
 			}
 			if ( strcmp(u2.contrasena,comparar_contrasena)==0 )
