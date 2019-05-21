@@ -4,6 +4,7 @@
 #include<string.h>
 #define SIZE 13
 
+
 struct usuario
 {	
 	char user[SIZE];
@@ -20,6 +21,7 @@ struct donacion
 	float cantidad;
 };
 
+
 void inicio(int menu);
 void usuario_registrado(struct usuario u,char nombreArchivo1[SIZE]);
 void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE]);
@@ -28,13 +30,15 @@ void lectura_repositorio(char lectura);
 void elegir_donar(char nombreArchivodonacion[]);
 
 
+
+
 void main() // FUNCION PRINCIPAL
 {
-	system("MODE 140,60");//TAMA—O DE PANTALLA ( ANCHO Y ALTO)
+	system("MODE 140,60");//TAMAÑO DE PANTALLA ( ANCHO Y ALTO)
 	system("color 3E");//Color de fondo y de las letras
 	int menu;
-	printf("BIENVENIDO A CLININCA, TU GUIA DE ONGS \n");
-	printf("Para iniciar sesion pulse 1\n");
+	printf("                                              BIENVENIDO A CLININCA, TU GUIA DE ONGS            \n");
+	printf("\nPara iniciar sesion pulse 1\n");
 	printf("Para registrarte pulsa 2 \n");
 	printf("Para pasar como invitado pulse 3\n");
 	printf("Para salir pulse 4 \n");
@@ -91,16 +95,16 @@ void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
 	
 };
 
-
 void usuario_registrado(struct usuario u,char nombreArchivo1[SIZE])
 {	
-	
+	int longitud;
 
 	do
 	{
 		printf("Introduce tu nombre de usuario que tenga menos de 12 caracteres y que solo tenga numeros y - o _\n");
 		scanf("%s",u.user);
-		if(strlen(u.user) != 0 && strlen(u.contrasena) !=0)
+		longitud=strlen(u.user);
+		if(longitud!=0)
 		{
 			printf("\nUsuario %s, introducido satisfactoriamente! \n", u.user);
 			strcpy(nombreArchivo1,u.user);
@@ -112,10 +116,9 @@ void usuario_registrado(struct usuario u,char nombreArchivo1[SIZE])
 			printf("Datos del usuario incompleto, por favor vuelva a introducir los datos.\n");
 			
 		}
-	}while(strlen(u.user)==0&&strlen(u.contrasena)==0);
+	}while(longitud==0);
 	
 };
-
 
 void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 {
@@ -126,6 +129,8 @@ void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 	char escritura2[]=" ",nuevoArchivo[SIZE],lectura;
 	char leer2,comparar_contrasena[SIZE];
 	struct usuario usuario2;
+	
+	user=fopen(nombreArchivo2,"r");
 	
 	if( user == NULL )
 	{	
@@ -175,8 +180,9 @@ void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 	}
 
 	else if ( user!= NULL )
-	{
-		user = fopen(nombreArchivo2,"r");
+	{	
+		fclose(user);
+		user2 = fopen(nombreArchivo2,"r");
 		do
 		{
 			printf("Introduce tu contrasena\n");
@@ -184,7 +190,7 @@ void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 			while( !feof(user) && i==0)
 			{	
 				fscanf(user,"%s %s %s %s",usuario,u2.user,contrasena,comparar_contrasena);
-				printf("\n%s %s  ",u2.user,comparar_contrasena);
+				printf("\n %s %s  ",u2.user,comparar_contrasena);
 				i++;
 			}
 			if ( strcmp(u2.contrasena,comparar_contrasena)==0 )
@@ -197,7 +203,7 @@ void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 			}
 			
 		}while(strcmp(u2.contrasena,comparar_contrasena)!=0);
-		fclose(user);
+		fclose(user2);
 		lectura_repositorio(lectura);
 		elegir_donar(nombreArchivo2);
 	}
@@ -245,7 +251,6 @@ void inicio(int menu)
 		}
 	}while( menu!=4&&menu!=1&&menu!=2&&menu!=3 );
 };
-
 
 void lectura_repositorio(char lectura)
 {
@@ -472,17 +477,12 @@ void elegir_donar(char nombreArchivodonacion[])
 			    printf("\nMuchas gracias por la donacion y  su visita a la guia de ongs\n");
 					
 			}
-				
-			//else
-			//{
-				//printf("Numero erroneo\n");
-			//}
+		
 				
 		}while(j<=0 || j>9);
 			
 	}
 				
-	
 	else
 	{
 		printf("\n\nGracias por haber visitado la guia de ONGS\n");
