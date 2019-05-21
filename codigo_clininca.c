@@ -50,12 +50,15 @@ void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
 {
 	FILE *newuser,*newuser2;
 	char lectura3;
+	int longitud;
+	
 	do
 	{
 	
 		printf("\nIntroduce tu nombre de usuario que tenga como maximo 12 caracteres,que solo tenga numeros y/o - o _,y sin espacios\n");
 		fflush( stdin );
 		scanf("%s",u3.user);
+		longitud=strlen(u3.user);
 		strcpy(nombreArchivo3,u3.user);
 		newuser=fopen(nombreArchivo3,"r");
 		
@@ -75,7 +78,7 @@ void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
 			printf("Cuenta creada sastisfactoriamente\n");
 		}
 			
-		else if (strlen(u3.user)==0&&strlen(u3.contrasena)==0)
+		else if (longitud==0)
 		{
 			printf("Datos del usuario incompleto, por favor vuelva a introducir los datos.\n");
 			
@@ -89,7 +92,7 @@ void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
 		}
 		
 		
-	}while(strlen(u3.user)==0&&strlen(u3.contrasena)==0);
+	}while(longitud==0);
 	lectura_repositorio(lectura3);
 	elegir_donar(nombreArchivo3);
 	
