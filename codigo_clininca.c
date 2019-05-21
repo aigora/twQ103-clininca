@@ -467,7 +467,7 @@ void elegir_donar(char nombreArchivodonacion[])
 						strcat(donacion_ongs3,",");
 						donacionTarjeta=donacion_ongs[i].tarjeta;
 						cantidadDonacion=donacion_ongs[i].cantidad;
-						fprintf(donaciones," \nNombre de la Asociacion, Nombre del Titular de la Tarjeta, Numero de Tarjeta de debito/credito, Cantidad donada: ");
+						fprintf(donaciones," \nNombre de la Asociacion, Nombre del Titular de la Tarjeta, Numero de Tarjeta de debito/credito, Cantidad donada (€): ");
 						fprintf(donaciones," %s %d, %f\n",donacion_ongs3,donacionTarjeta,cantidadDonacion);
 						fclose(donaciones);
 					}
