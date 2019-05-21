@@ -463,7 +463,7 @@ void elegir_donar(char nombreArchivodonacion[])
 					{
 						fprintf(donaciones,"\nDONACION: ");
 						strcpy(donacion_ongs3,donacion_ongs[i].nombre);
-						strcat(donacion_ongs3,"-");
+						strcat(donacion_ongs3,",");
 						strcat(donacion_ongs3,donacion_ongs[i].n_identificacion);
 						strcat(donacion_ongs3,",");
 						donacionTarjeta=donacion_ongs[i].tarjeta;
