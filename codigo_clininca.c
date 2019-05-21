@@ -2,7 +2,7 @@
 #include<stdlib.h> 
 #include<windows.h>
 #include<string.h>
-#define SIZE 25	
+#define SIZE 13
 
 struct usuario
 {	
@@ -25,7 +25,6 @@ void usuario_registrado(struct usuario u,char nombreArchivo1[SIZE]);
 void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE]);
 void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[]);
 void lectura_repositorio(char lectura);
-void releer(char relectura);
 void elegir_donar(char nombreArchivodonacion[]);
 
 
@@ -43,17 +42,14 @@ void main() // FUNCION PRINCIPAL
 	
 };
 
-
-void inicio(struct usuario u )
-{
-	
-	void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
+void crear_usuario(struct usuario u3,char nombreArchivo3[SIZE],char escritura[])
 {
 	FILE *newuser,*newuser2;
+	char lectura3;
 	do
 	{
 	
-		printf("Introduce tu nombre de usuario que tenga menos de 25 caracteres,que solo tenga numeros y/o - o _,y sin espacios\n");
+		printf("\nIntroduce tu nombre de usuario que tenga como maximo 12 caracteres,que solo tenga numeros y/o - o _,y sin espacios\n");
 		fflush( stdin );
 		scanf("%s",u3.user);
 		strcpy(nombreArchivo3,u3.user);
@@ -61,17 +57,18 @@ void inicio(struct usuario u )
 		
 		if ( newuser==NULL)
 		{
-			printf("Introduce tu contrasenha que tenga menos de 25 caracteres y sin espacios\n");
+			printf("Introduce tu contrasenha que tenga como maximo 12 caracteres y sin espacios\n");
 			fflush( stdin );
 			scanf("%s",u3.contrasena);
 			strcpy(nombreArchivo3,u3.user);
 			newuser2=fopen(nombreArchivo3,"a");
 			strcat(escritura,u3.user);
-			strcat(escritura,"-");
-			strcat(escritura,u3.contrasena);
-			fprintf(newuser2,"Nombre de usuario-ContraseÒa: %s\n",escritura);
+			fprintf(newuser2,"Usuario: %s",escritura);
+			strcat(escritura,"\n");
+			strcpy(escritura,u3.contrasena);
+			fprintf(newuser2,"\nContraseña: %s\n",escritura);
 			fclose(newuser2);
-			printf("Cuenta creada sastisfactoriamente");
+			printf("Cuenta creada sastisfactoriamente\n");
 		}
 			
 		else if (strlen(u3.user)==0&&strlen(u3.contrasena)==0)
@@ -82,24 +79,27 @@ void inicio(struct usuario u )
 		
 		else
 		{
-			printf("Usuario registrado,introduzca nombre de usuario valido\n");
+			printf("\nUsuario registrado,introduzca nombre de usuario valido\n");
 			crear_usuario(u3,nombreArchivo3,escritura);
 			
 		}
 		
 		
 	}while(strlen(u3.user)==0&&strlen(u3.contrasena)==0);
+	lectura_repositorio(lectura3);
+	elegir_donar(nombreArchivo3);
+	
 };
+
 
 void usuario_registrado(struct usuario u,char nombreArchivo1[SIZE])
 {	
+	
 
 	do
 	{
-		printf("Introduce tu nombre de usuario que tenga menos de 25 caracteres y que solo tenga numeros y - o _\n");
+		printf("Introduce tu nombre de usuario que tenga menos de 12 caracteres y que solo tenga numeros y - o _\n");
 		scanf("%s",u.user);
-		printf("Introduce tu contrasenha que tenga menos de 25 caracteres y sin espacios\n");
-		scanf("%s",u.contrasena);
 		if(strlen(u.user) != 0 && strlen(u.contrasena) !=0)
 		{
 			printf("\nUsuario %s, introducido satisfactoriamente! \n", u.user);
@@ -116,21 +116,22 @@ void usuario_registrado(struct usuario u,char nombreArchivo1[SIZE])
 	
 };
 
+
 void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 {
 	
 	FILE *user,*user2;
-	char donacionesInvitados[]="donacionesInvitados";
-	int registro,opcion;
-	char escritura2[]=" ",nuevoArchivo[SIZE],lectura,opcion2;
-	char leer2;
+	char usuario[SIZE],contrasena[SIZE],donacionesInvitados[]="DonacionesInvitados";
+	int registro,opcion,i=0;
+	char escritura2[]=" ",nuevoArchivo[SIZE],lectura;
+	char leer2,comparar_contrasena[SIZE];
 	struct usuario usuario2;
 	
-	user = fopen(nombreArchivo2,"r");
 	if( user == NULL )
-	{
+	{	
+		fclose(user);
 		printf("\nCuenta no existente\n\n");
-		printf("øQuiere registrarse?\n");
+		printf("¿Quiere registrarse?\n");
 		printf("SI: 1 , NO: 2\n");
 		
 		do 
@@ -142,13 +143,11 @@ void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 			
 				case 1:
 					crear_usuario(usuario2,nuevoArchivo,escritura2);
-					lectura_repositorio(leer2);
-					elegir_donar(nuevoArchivo);
 					break;
 			
 				case 2:
-					printf("øQuiere acceder como invitado?, Pulse 1\n");
-					printf("øQuiere salir?,Pulse 2\n");
+					printf("¿Quiere acceder como invitado?, Pulse 1\n");
+					printf("¿Quiere salir?,Pulse 2\n");
 					fflush(stdin);
 					scanf("%d",&opcion);
 					
@@ -161,7 +160,7 @@ void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 					
 					else if(opcion ==2)
 					{
-						printf("Ha salido de la guÌa de ONGS");
+						printf("Ha salido de la guía de ONGS");
 					}
 					break;
 				
@@ -174,20 +173,41 @@ void archivo_usuario_registrado(struct usuario u2,char nombreArchivo2[SIZE])
 						
 		} while(registro!=1&&registro!=2);
 	}
-		
-		
-	else
+
+	else if ( user!= NULL )
 	{
-		printf("\nCuenta existente");
+		user = fopen(nombreArchivo2,"r");
+		do
+		{
+			printf("Introduce tu contrasena\n");
+			scanf("%s",u2.contrasena);
+			while( !feof(user) && i==0)
+			{	
+				fscanf(user,"%s %s %s %s",usuario,u2.user,contrasena,comparar_contrasena);
+				printf("\n%s %s  ",u2.user,comparar_contrasena);
+				i++;
+			}
+			if ( strcmp(u2.contrasena,comparar_contrasena)==0 )
+			{	
+				printf("\nContrasena introducida correcta");	
+			}
+			else
+			{
+				printf("\n Contrasena incorrecta\n");
+			}
+			
+		}while(strcmp(u2.contrasena,comparar_contrasena)!=0);
+		fclose(user);
 		lectura_repositorio(lectura);
 		elegir_donar(nombreArchivo2);
 	}
+	
 	
 };
 
 void inicio(int menu)
 {
-	char donacionesInvitados[]="donacionesInvitados";
+	char donacionesInvitados[]="DonacionesInvitados";
 	struct usuario usuario1;
 	char leer;
 	char nombreArchivo[SIZE],escritura[]="";
@@ -205,14 +225,10 @@ void inicio(int menu)
 
 			case 2:
 				crear_usuario(usuario1,nombreArchivo,escritura);
-				lectura_repositorio(leer);
-				printf("%c",nombreArchivo);
-				elegir_donar(nombreArchivo);
 				break;
 
 			case 3:
 				printf("\nAcceso como invitado\n");
-				//Se abre fichero de lectura de las ongs
 				lectura_repositorio(leer);
 				elegir_donar(donacionesInvitados);
 				break;
@@ -229,6 +245,7 @@ void inicio(int menu)
 		}
 	}while( menu!=4&&menu!=1&&menu!=2&&menu!=3 );
 };
+
 
 void lectura_repositorio(char lectura)
 {
@@ -265,7 +282,7 @@ void lectura_repositorio(char lectura)
 				fclose(medioambiente1);
 			}
 			
-			printf("ø\n Quiere informacion de otro tipo de ongs?\n");
+			printf("¿\n Quiere informacion de otro tipo de ongs?\n");
 			printf("1: SI\n");
 			printf("2: NO\n");
 			fflush( stdin );
@@ -275,13 +292,13 @@ void lectura_repositorio(char lectura)
 				switch(numero)
 				{
 					case 1:
-						releer(lectura2);
+						lectura_repositorio(lectura2);
 						break;
 					case 2:
-						printf("Gracias por su visita a la guia de ongs ");
+						printf("\nGracias por su visita a la guia de ongs ");
 						break;
 					default:
-						printf("Numero incorrecto\n");
+						printf("\nNumero incorrecto\n");
 						break;
 				}
 				
@@ -306,7 +323,7 @@ void lectura_repositorio(char lectura)
 				fclose(proteccion1);	
 			}
 		
-			printf("øQuiere informacion de otro tipo de ongs?\n");
+			printf("\n¿Quiere informacion de otro tipo de ongs?\n");
 			printf("1: SI\n");
 			printf("2: NO\n");
 			fflush( stdin );
@@ -317,13 +334,13 @@ void lectura_repositorio(char lectura)
 				switch(numero)
 				{
 					case 1:
-						releer(lectura2);
+						lectura_repositorio(lectura2);
 						break;
 					case 2:
-						printf("Gracias por su visita a la guia de ongs");
+						printf("\nGracias por su visita a la guia de ongs");
 						break;
 					default:
-						printf("Numero incorrecto");
+						printf("\nNumero incorrecto");
 						break;
 				}
 				
@@ -331,13 +348,13 @@ void lectura_repositorio(char lectura)
 		}
 		
 	   
-		else if( lectura=='c' || lectura=='C')
+		else if( lectura =='c'|| lectura =='C')
 		{
-			ayuda1=fopen("ayudas.txt","r");
+			ayuda1=fopen("ayuda.txt","r");
 			
 			if ( ayuda1 ==NULL)
 			{
-				printf("Fichero no abierto");
+				printf("\nFichero no abierto\n");
 			}
 			
 			else
@@ -349,19 +366,18 @@ void lectura_repositorio(char lectura)
 				}
 			 	fclose(ayuda1);
 			}
-			
-			printf("øQuiere informacion de otro tipo de ongs?\n");
+			printf("\n¿Quiere informacion de otro tipo de ongs?\n");
 			printf("1: SI\n");
 			printf("2: NO\n");
 			fflush( stdin );
 			do 
 			{
+				scanf("%d",&numero);
 				switch(numero)
 				{
-					scanf("%d",&numero);
 			
 					case 1:
-						releer(lectura2);
+						lectura_repositorio(lectura2);
 						break;
 					case 2:
 						printf("Gracias por la visita a la guia de ongs");
@@ -383,21 +399,16 @@ void lectura_repositorio(char lectura)
 	
 };
 
-void releer(char relectura)
-{
-	lectura_repositorio(relectura);
-};
 void elegir_donar(char nombreArchivodonacion[])
 {
 	FILE *donaciones;
-	char donacionesEscritura[]=" ";
 	struct donacion donacion_ongs[9];
 	char donacion_ongs3[]=" ";
 	int donacionTarjeta;
 	float cantidadDonacion;
 	int i,j,eleccion;
 	
-	printf("\nQuieres donar?, 1:SI ,2: NO\n");
+	printf("\n\nQuieres donar?, 1:SI ,2: NO\n");
 	scanf("%d",&eleccion);
 	
 	
@@ -406,10 +417,10 @@ void elegir_donar(char nombreArchivodonacion[])
 		
 		do
 		{
-			printf("Introduce el numero de ongs que quieres donar\n");
+			printf("\nIntroduce el numero de ongs que quieres donar, el numero maximo es nueve\n");
 			scanf("%d",&j);
 				
-			if(j>0)
+			if(j>0  && j<10)
 			{
 				for(i=1 ; i<=j ; i++)
 				{
@@ -445,7 +456,7 @@ void elegir_donar(char nombreArchivodonacion[])
 					
 					else
 					{
-						fprintf(donaciones,"DONACIONES: ");
+						fprintf(donaciones,"\nDONACION: ");
 						strcpy(donacion_ongs3,donacion_ongs[i].nombre);
 						strcat(donacion_ongs3,"-");
 						strcat(donacion_ongs3,donacion_ongs[i].n_identificacion);
@@ -453,34 +464,30 @@ void elegir_donar(char nombreArchivodonacion[])
 						donacionTarjeta=donacion_ongs[i].tarjeta;
 						cantidadDonacion=donacion_ongs[i].cantidad;
 						fprintf(donaciones," \nNombre de la Asociacion, Nombre del Titular de la Tarjeta, Numero de Tarjeta de debito/credito, Cantidad donada: ");
-						fprintf(donaciones," %s %d, %f",donacion_ongs3,donacionTarjeta,cantidadDonacion);
+						fprintf(donaciones," %s %d, %f\n",donacion_ongs3,donacionTarjeta,cantidadDonacion);
 						fclose(donaciones);
 					}
 				
 			    }
-			    printf("Muchas gracias por la donacion y  su visita a la guia de ongs\n");
+			    printf("\nMuchas gracias por la donacion y  su visita a la guia de ongs\n");
 					
 			}
 				
-			else
-			{
-				printf("Numero erroneo\n");
-			}
+			//else
+			//{
+				//printf("Numero erroneo\n");
+			//}
 				
-		}while( j ==0 );
+		}while(j<=0 || j>9);
 			
 	}
 				
 	
 	else
 	{
-		printf("\nGracias por haber visitado la guia de ONGS\n");
+		printf("\n\nGracias por haber visitado la guia de ONGS\n");
 	}	
 	
 };
-
-
-
-
 
 
